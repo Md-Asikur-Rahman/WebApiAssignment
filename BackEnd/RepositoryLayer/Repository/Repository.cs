@@ -1,64 +1,56 @@
 ﻿using DomainLayer.Data;
-using DomainLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using RepositoryLayer.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RepositoryLayer.Repository.Interfaces;
 
 namespace RepositoryLayer.Repository
 {
-    public class Repository <T>   : IRepository<T> where T : Employee
+    public class Repository <T>   : IRepository<T> where T : class
     {
         private readonly EmployeeDbContext _employeeDbContext;
-        private DbSet<T> employees;
+        private DbSet<T> entities;
         public Repository(EmployeeDbContext employeeDbContext)
         {
             _employeeDbContext = employeeDbContext;
-            employees = _employeeDbContext.Set<T>();
+            entities = _employeeDbContext.Set<T>();
 
         }
-        public IEnumerable<T> GetAllEmployee()
+        public IEnumerable<T> GetAll()
         {
-            return employees.AsEnumerable();
+            return entities.AsEnumerable();
         }
-        public T GetEmployeeByID(int id)
+        public T GetByID(int id)
         {
-            return employees.SingleOrDefault(e=e=>e.Id == id);
+            return entities.Find(id);
         }
 
-        public void AddEmployee(T employee)
+        public void Add(T entity)
         {
-            if (employee == null)
+            if (entity == null)
             {
-                throw new ArgumentNullException("employee");
+                throw new ArgumentNullException("entity");
             }
-            employees.Add(employee);
+            entities.Add(entity);
             _employeeDbContext.SaveChanges();
         }
-        public void DeleteEmployee(T employee)
+        public void DeleteByID(int id)
         {
-            if (employee == null)
-            {
-                throw new ArgumentNullException("employee");
-            }
-            employees.Remove(employee);
-            _employeeDbContext.SaveChanges();
-        }
-        public void UpdateEmployee(T employee) { 
-            if (employee == null) 
-            {
-                throw new ArgumentNullException("employee");
-            } 
-            employees.Update(employee);
-            _employeeDbContext.SaveChanges();
-        }
-        public void SaveChanges()
-        {
-            _employeeDbContext.SaveChanges();
-        }
+            var entity = entities.Find(id);
 
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+            entities.Remove(entity);
+            _employeeDbContext.SaveChanges();
+        }
+        public void Update(T entity) { 
+            if (entity == null) 
+            {
+                throw new ArgumentNullException("entity");
+            }
+            entities.Update(entity);
+            _employeeDbContext.SaveChanges();
+        }
+       
     }
 }

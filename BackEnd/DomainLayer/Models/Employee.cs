@@ -29,7 +29,7 @@ namespace DomainLayer.Models
         [DisplayName("Email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Enter the employee's PhoneNumber")]
-        [Phone]
+        //[Phone]
         [DisplayName("Phone")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Enter the employee's Description")]
