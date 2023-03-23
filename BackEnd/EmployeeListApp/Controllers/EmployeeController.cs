@@ -16,7 +16,6 @@ namespace EmployeeListApp.Controllers
             _customEmployeeServices= customEmployeeServices;
             _employeeDbContext= employeeDbContext;
         }
-        
         [HttpGet(nameof(GetAllEmployee))]
         public IActionResult GetAllEmployee()
         {
@@ -31,7 +30,8 @@ namespace EmployeeListApp.Controllers
             }
         }
 
-        [HttpGet(nameof(GetEmployeeByID))]
+        // [HttpGet(nameof(GetEmployeeByID))]
+        [HttpGet("GetEmployeeByID/{id}")]
         public IActionResult GetEmployeeByID(int id)
         {
             var employee = _customEmployeeServices.GetEmployeeByID(id);
@@ -52,6 +52,7 @@ namespace EmployeeListApp.Controllers
             {
                 _customEmployeeServices.AddEmployee(employee);
                 return Ok(employee);
+               // return Ok("successfull");
             }
             else
             {
@@ -73,13 +74,14 @@ namespace EmployeeListApp.Controllers
             }
         }
 
-        [HttpDelete(nameof(DeleteEmployee))]
+        //[HttpDelete(nameof(DeleteEmployee))]
+        [HttpDelete("DeleteEmployee/{id}")]
         public IActionResult DeleteEmployee(int id)
         {
             if (id!=null)
             {
                 _customEmployeeServices.DeleteEmployee(id);
-                return Ok("Succesfully Employee Deleted");
+                return Ok("Deleted Successfully");
             }
             else
             {

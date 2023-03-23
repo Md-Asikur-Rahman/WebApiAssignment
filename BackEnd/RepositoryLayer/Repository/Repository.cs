@@ -14,7 +14,7 @@ namespace RepositoryLayer.Repository
             entities = _employeeDbContext.Set<T>();
 
         }
-        public IEnumerable<T> GetAll()
+        public  IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();
         }
